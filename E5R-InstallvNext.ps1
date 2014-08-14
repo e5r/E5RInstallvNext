@@ -89,15 +89,15 @@ Function Install-KVM(){
         
         Write-Host ""
         Write-Host "KRE [Core] x86"
-        #Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svrc50 -alias $KLRE5RDEV-core"       #kvm use e5r-core
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svrc50 -alias $KLRE5RDEV-core"       #kvm use e5r-core
         
         Write-Host ""
         Write-Host "KRE [Net45] x64"
-        #Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svr50 -alias $KLRE5RDEV-x64"         #kvm use e5r-x64
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svr50 -alias $KLRE5RDEV-x64"         #kvm use e5r-x64
         
         Write-Host ""
         Write-Host "KRE [Core] x64"
-        #Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svrc50 -alias $KLRE5RDEV-x64-core"   #kvm use e5r-x64-core
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svrc50 -alias $KLRE5RDEV-x64-core"   #kvm use e5r-x64-core
         
         Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86 $KLRVERSION -x86 -svr50"                  #kvm use e5r-x86
         Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86-core $KLRVERSION -x86 -svrc50"            #kvm use e5r-x86-core
