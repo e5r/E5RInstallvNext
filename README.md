@@ -1,5 +1,7 @@
-ASP.NET vNext Environment Installer for E5R Team
-================================================
+ASP.NET vNext Environment Installer
+===================================
+
+##for E5R Team
 
 Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E5R.
 
