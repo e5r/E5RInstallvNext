@@ -6,6 +6,7 @@ $NUGET_LOCAL_PATH=Join-Path $E5R_TOOLS "NuGet.exe"
 $E5R_PACKAGES=Join-Path $E5R_BASE "packages"
 $CMD_NUGET=$NUGET_LOCAL_PATH
 $KVM_PATH=Join-Path $env:USERPROFILE ".kre\bin\kvm.ps1"
+$NUGET_KREPATH=Join-Path $env:USERPROFILE ".kre\bin\NuGet.exe"
 $KVMPS = Join-Path $E5R_TOOLS "kvm.ps1"
 $KVMCMD = Join-Path $E5R_TOOLS "kvm.cmd"
 $KLRVERSION = "1.0.0-alpha3"
@@ -88,15 +89,15 @@ Function Install-KVM(){
         
         Write-Host ""
         Write-Host "KRE [Core] x86"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svrc50 -alias $KLRE5RDEV-core"       #kvm use e5r-core
+        #Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svrc50 -alias $KLRE5RDEV-core"       #kvm use e5r-core
         
         Write-Host ""
         Write-Host "KRE [Net45] x64"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svr50 -alias $KLRE5RDEV-x64"         #kvm use e5r-x64
+        #Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svr50 -alias $KLRE5RDEV-x64"         #kvm use e5r-x64
         
         Write-Host ""
         Write-Host "KRE [Core] x64"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svrc50 -alias $KLRE5RDEV-x64-core"   #kvm use e5r-x64-core
+        #Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svrc50 -alias $KLRE5RDEV-x64-core"   #kvm use e5r-x64-core
         
         Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86 $KLRVERSION -x86 -svr50"                  #kvm use e5r-x86
         Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86-core $KLRVERSION -x86 -svrc50"            #kvm use e5r-x86-core
@@ -114,17 +115,17 @@ Function Install-KVM(){
     Write-Host "------------------------------------------------------------------"
     
     if((Test-Path $NUGET_LOCAL_PATH) -eq 1){
-        Copy-Item -Path $NUGET_LOCAL_PATH -Destination $NUGET_LOCAL_PATH
+        Copy-Item -Path $NUGET_LOCAL_PATH -Destination $NUGET_KREPATH
         Remove-Item $NUGET_LOCAL_PATH
-    }
-    if((Test-Path $E5R_BASE) -eq 1){
-        Remove-Item $E5R_BASE
     }
     if((Test-Path $KVMPS) -eq 1){
         Remove-Item $KVMPS
     }
     if((Test-Path $KVMCMD) -eq 1){
         Remove-Item $KVMCMD
+    }
+    if((Test-Path $E5R_BASE) -eq 1){
+        Remove-Item $E5R_BASE -Recurse
     }
 }
 
