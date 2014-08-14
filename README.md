@@ -15,11 +15,11 @@ Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E
 
 #### Deixa acessíveis todos os comandos da plataforma
 
-  * kvm
-  * kpm
-  * klr
-  * k
-  * nuget
+  * `kvm`
+  * `kpm`
+  * `klr`
+  * `k`
+  * `nuget`
 
 # Instruções de instalação
 
