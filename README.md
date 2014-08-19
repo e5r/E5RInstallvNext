@@ -5,6 +5,8 @@ ASP.NET vNext Environment Installer
 
 Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E5R.
 
+#### [Notas de lançamento](https://github.com/erlimar/E5RInstallvNext/releases)
+
 #### Faz o download e instala de uma única vez
 
   * KRuntime 1.0.0-alpha4 x86
