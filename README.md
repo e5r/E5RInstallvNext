@@ -7,11 +7,27 @@ Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E
 
 #### Faz o download e instala de uma única vez
 
-  * KRuntime 1.0.0-alpha3 x86
-  * KRuntime 1.0.0-alpha3 x86 [core]
-  * KRuntime 1.0.0-alpha3 x64
-  * KRuntime 1.0.0-alpha3 x64 [core]
+  * KRuntime 1.0.0-alpha4 x86
+  * KRuntime 1.0.0-alpha4 x86 [core]
+  * KRuntime 1.0.0-alpha4 x64
+  * KRuntime 1.0.0-alpha4 x64 [core]
   * NuGet.exe
+
+Caso já existam versões do KRE instaladas, as listadas acima serão incluídas como
+uma atualização (se não existirem) e os seguintes aliases serão criados:
+
+  * `e5r` Atalho para `e5r-x86`
+  * `e5r-core` Atalho para `e5r-x86-core`
+  * `e5r-x86` .NET Framework 32 bits
+  * `e5r-x86-core` .NET Core Framework 32 bits
+  * `e5r-x64` .NET Framework 64 bits
+  * `e5r-x64-core` .NET Core Framework 64 bits
+
+Com esses atalhos fica mais intuitivo escolher o ambiente de desenvolvimento.
+
+```
+kvm use e5r
+```
 
 #### Deixa acessíveis todos os comandos da plataforma
 
@@ -26,7 +42,7 @@ Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E
 ### Windows
 
 1. Baixe os scripts `E5R-InstallvNext.ps1` e `E5R-InstallvNext-Windows.cmd`
-2. Dê um __clique duplo__ em `E5R-InstallvNext-Windows.cmd`
+2. Execute `E5R-InstallvNext-Windows.cmd`
 
 ### Unix
 
