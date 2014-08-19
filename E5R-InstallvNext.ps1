@@ -5,49 +5,22 @@ $E5R_TOOLS=Join-Path $E5R_BASE "tools"
 $NUGET_LOCAL_PATH=Join-Path $E5R_TOOLS "NuGet.exe"
 $E5R_PACKAGES=Join-Path $E5R_BASE "packages"
 $CMD_NUGET=$NUGET_LOCAL_PATH
-$KVM_PATH=Join-Path $env:USERPROFILE ".kre\bin\kvm.ps1"
+$KLRVERSION = "1.0.0-alpha4-10285"
+$KVM_PATH=Join-Path $env:USERPROFILE ".kre\packages\KRE-{TYPE}-{ARCH}.$KLRVERSION"
 $NUGET_KREPATH=Join-Path $env:USERPROFILE ".kre\bin\NuGet.exe"
 $KVMPS = Join-Path $E5R_TOOLS "kvm.ps1"
 $KVMCMD = Join-Path $E5R_TOOLS "kvm.cmd"
-$KLRVERSION = "1.0.0-alpha3"
 $KLRE5RDEV = "e5r"
 
-# 
-# COPYRIGHT! Este codigo `Change-Path()` e uma copia da funcao com mesmo nome de autoria do time
-#            ASP.NET vNext (https://github.com/aspnet/Home/blob/master/kvm.ps1)
-#
-#            Copyright (c) Microsoft Open Technologies, Inc. All rights reserved.
-#            
-#            Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-#            these files except in compliance with the License. You may obtain a copy of the
-#            License at
-#            
-#            http://www.apache.org/licenses/LICENSE-2.0
-#            
-#            Unless required by applicable law or agreed to in writing, software distributed
-#            under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-#            CONDITIONS OF ANY KIND, either express or implied. See the License for the
-#            specific language governing permissions and limitations under the License.
-#
-function Change-Path() {
+Function Path-For(){
 param(
-  [string] $existingPaths,
-  [string] $prependPath,
-  [string[]] $removePaths
+    [string] $type,
+    [string] $arch
 )
-    $newPath = $prependPath
-    foreach($portion in $existingPaths.Split(';')) {
-      $skip = $portion -eq ""
-      foreach($removePath in $removePaths) {
-        if ($portion.StartsWith($removePath)) {
-          $skip = $true
-        }
-      }
-      if (!$skip) {
-        $newPath = $newPath + ";" + $portion
-      }
-    }
-    return $newPath
+    $replaced = $KVM_PATH
+    $replaced = $replaced -replace "{TYPE}", $type
+    $replaced = $replaced -replace "{ARCH}", $arch
+    return $replaced
 }
 
 Function Copy-NuGet() {
@@ -74,46 +47,61 @@ Function Install-NuGet() {
 Function Install-KVM(){
     if((Test-Path $KVMPS) -ne 1){
         Write-Host "Downloading KVM.ps1..."
-        Invoke-WebRequest 'https://raw.githubusercontent.com/erlimar/Home/master/kvm.ps1' -OutFile $KVMPS
+        Invoke-WebRequest 'https://raw.githubusercontent.com/aspnet/kvm/dev/src/kvm.ps1' -OutFile $KVMPS
     }
     if((Test-Path $KVMCMD) -ne 1){
         Write-Host "Downloading KVM.cmd..."
-        Invoke-WebRequest 'https://raw.githubusercontent.com/erlimar/Home/master/kvm.cmd' -OutFile $KVMCMD
+        Invoke-WebRequest 'https://raw.githubusercontent.com/aspnet/kvm/dev/src/kvm.cmd' -OutFile $KVMCMD
     }
-    if((Test-Path $KVM_PATH) -ne 1){
-        Write-Host "Installing K's"
 
+    Write-Host "Installing KRuntime's"
+
+    $installpath = Path-For -type "svr50" -arch "x86"
+    if((Test-Path $installpath) -ne 1){
         Write-Host ""
         Write-Host "KRE [Net45] x86"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svr50 -persistent -alias $KLRE5RDEV" #kvm use e5r
-        
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svr50 -persistent"
+    }
+
+    $installpath = Path-For -type "svrc50" -arch "x86"
+    if((Test-Path $installpath) -ne 1){
         Write-Host ""
         Write-Host "KRE [Core] x86"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svrc50 -alias $KLRE5RDEV-core"       #kvm use e5r-core
-        
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x86 -svrc50"
+    }
+
+    $installpath = Path-For -type "svr50" -arch "x64"
+    if((Test-Path $installpath) -ne 1){
         Write-Host ""
         Write-Host "KRE [Net45] x64"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svr50 -alias $KLRE5RDEV-x64"         #kvm use e5r-x64
-        
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svr50"
+    }
+
+    $installpath = Path-For -type "svrc50" -arch "x64"
+    if((Test-Path $installpath) -ne 1){
         Write-Host ""
         Write-Host "KRE [Core] x64"
-        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svrc50 -alias $KLRE5RDEV-x64-core"   #kvm use e5r-x64-core
-        
-        Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86 $KLRVERSION -x86 -svr50"                  #kvm use e5r-x86
-        Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86-core $KLRVERSION -x86 -svrc50"            #kvm use e5r-x86-core
-
-        Write-Host ""
-        Write-Host "Set default [Net45 x86]"
-        Invoke-Expression -Command:"$KVMCMD use $KLRE5RDEV"      #Set default [e5r]
-        Invoke-Expression -Command:"$KVMCMD setup"
+        Invoke-Expression -Command:"$KVMCMD install $KLRVERSION -x64 -svrc50"
     }
+
+    Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86 $KLRVERSION -x86 -svr50"                  #kvm use e5r-x86
+    Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x86-core $KLRVERSION -x86 -svrc50"            #kvm use e5r-x86-core
+    Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x64 $KLRVERSION -x64 -svr50"                  #kvm use e5r-x64
+    Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-x64-core $KLRVERSION -x64 -svrc50"            #kvm use e5r-x64-core
+    Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV $KLRE5RDEV-x86"                               #kvm use e5r
+    Invoke-Expression -Command:"$KVMCMD alias $KLRE5RDEV-core $KLRE5RDEV-x86-core"                     #kvm use e5r-core
+
+    Write-Host ""
+    Write-Host "Set default [Net45 x86]"
+    Invoke-Expression -Command:"$KVMCMD setup"
+    Invoke-Expression -Command:"$KVMCMD use $KLRE5RDEV"      #Set default [e5r]
 
     Write-Host ""
     Write-Host "Configurations"
     Write-Host "------------------------------------------------------------------"
     Invoke-Expression -Command:"$KVMCMD list"
     Write-Host "------------------------------------------------------------------"
-    
+
     if((Test-Path $NUGET_LOCAL_PATH) -eq 1){
         Copy-Item -Path $NUGET_LOCAL_PATH -Destination $NUGET_KREPATH
         Remove-Item $NUGET_LOCAL_PATH
@@ -148,7 +136,6 @@ Function Run(){
     Install-NuGet
     Install-KVM
     #Restore-Package "KoreBuild"
-    #Restore-Package "E5R.LocalDB.js.AspNet" "1.0.1"
 }
 
 Run
