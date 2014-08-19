@@ -39,22 +39,41 @@
         <ul></ul>
       </nav>
       <section>
-        <blockquote>
-<p>Copyright (c) 2014 Erlimar Silva Campos, E5R Team</p>
-</blockquote>
-
-<p>Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E5R.</p>
+        <p>Scripts de instalação do ambiente ASP.NET vNext para time de desenvolvimento E5R.</p>
 
 <h4>
 <a name="faz-o-download-e-instala-de-uma-%C3%BAnica-vez" class="anchor" href="#faz-o-download-e-instala-de-uma-%C3%BAnica-vez"><span class="octicon octicon-link"></span></a>Faz o download e instala de uma única vez</h4>
 
 <ul>
-<li>KRuntime 1.0.0-alpha3 x86</li>
-<li>KRuntime 1.0.0-alpha3 x86 [core]</li>
-<li>KRuntime 1.0.0-alpha3 x64</li>
-<li>KRuntime 1.0.0-alpha3 x64 [core]</li>
+<li>KRuntime 1.0.0-alpha4 x86</li>
+<li>KRuntime 1.0.0-alpha4 x86 [core]</li>
+<li>KRuntime 1.0.0-alpha4 x64</li>
+<li>KRuntime 1.0.0-alpha4 x64 [core]</li>
 <li>NuGet.exe</li>
-</ul><h4>
+</ul><p>Caso já existam versões do KRE instaladas, as listadas acima serão incluídas como
+uma atualização (se não existirem) e os seguintes aliases serão criados:</p>
+
+<ul>
+<li>
+<code>e5r</code> Atalho para <code>e5r-x86</code>
+</li>
+<li>
+<code>e5r-core</code> Atalho para <code>e5r-x86-core</code>
+</li>
+<li>
+<code>e5r-x86</code> .NET Framework 32 bits</li>
+<li>
+<code>e5r-x86-core</code> .NET Core Framework 32 bits</li>
+<li>
+<code>e5r-x64</code> .NET Framework 64 bits</li>
+<li>
+<code>e5r-x64-core</code> .NET Core Framework 64 bits</li>
+</ul><p>Com esses atalhos fica mais intuitivo escolher o ambiente de desenvolvimento.</p>
+
+<pre><code>kvm use e5r
+</code></pre>
+
+<h4>
 <a name="deixa-acess%C3%ADveis-todos-os-comandos-da-plataforma" class="anchor" href="#deixa-acess%C3%ADveis-todos-os-comandos-da-plataforma"><span class="octicon octicon-link"></span></a>Deixa acessíveis todos os comandos da plataforma</h4>
 
 <ul>
@@ -72,7 +91,7 @@
 <ol>
 <li>Baixe os scripts <code>E5R-InstallvNext.ps1</code> e <code>E5R-InstallvNext-Windows.cmd</code>
 </li>
-<li>Dê um <strong>clique duplo</strong> em <code>E5R-InstallvNext-Windows.cmd</code>
+<li>Execute <code>E5R-InstallvNext-Windows.cmd</code>
 </li>
 </ol><h3>
 <a name="unix" class="anchor" href="#unix"><span class="octicon octicon-link"></span></a>Unix</h3>
